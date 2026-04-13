@@ -1,5 +1,92 @@
 # Examples
 
+Two parts:
+
+1. **[Usage by tool](#usage-by-tool)** — how to wire agent-protocol into Claude Code, Cursor, GitHub Copilot, Windsurf, and generic AGENTS.md agents.
+2. **[Principles in action](#principles-in-action)** — real code examples showing what LLMs commonly do wrong and how to fix it.
+
+---
+
+## Usage by tool
+
+The install script (`scripts/install.sh`) writes `AGENT_PROTOCOL.md` to the root of your project and drops a copy at every path the supported tools expect. You can also install by hand; the per-tool sections below show both.
+
+The one-liner:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash
+```
+
+### Claude Code
+
+Claude Code reads `CLAUDE.md` from the project root (and merges it with `~/.claude/CLAUDE.md` if present).
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/AGENT_PROTOCOL.md -o CLAUDE.md
+```
+
+Then start Claude Code in that directory — it picks up `CLAUDE.md` automatically. To merge with project-specific rules, append them to `CLAUDE.md` below the protocol.
+
+### Cursor
+
+Cursor reads rules from `.cursor/rules/*.mdc`.
+
+```bash
+mkdir -p .cursor/rules
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/AGENT_PROTOCOL.md -o .cursor/rules/main.mdc
+```
+
+`.mdc` files accept YAML frontmatter (`description`, `globs`, `alwaysApply`) if you want to scope rules; without it the rules apply globally, which is what you usually want for a shared protocol.
+
+### GitHub Copilot
+
+Copilot Chat / Copilot in IDEs reads `.github/copilot-instructions.md`.
+
+```bash
+mkdir -p .github
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/AGENT_PROTOCOL.md -o .github/copilot-instructions.md
+```
+
+Commit the file; Copilot picks it up on the next session.
+
+### Windsurf
+
+Windsurf reads `.windsurfrules` from the project root.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/AGENT_PROTOCOL.md -o .windsurfrules
+```
+
+### Generic AGENTS.md
+
+Any tool that follows the [AGENTS.md](https://agents.md) convention reads `AGENTS.md` from the project root.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/AGENT_PROTOCOL.md -o AGENTS.md
+```
+
+### Keeping it up to date
+
+Re-run the install one-liner whenever the upstream protocol changes. If you've appended project-specific rules below the shared ones, split them into a separate file first so they don't get overwritten.
+
+### Adding project-specific rules
+
+The agent-protocol is meant to be merged with project-specific guidance. The simplest pattern is to append to the end of the file each tool reads:
+
+```markdown
+<!-- contents of AGENT_PROTOCOL.md above -->
+
+## Project-Specific Rules
+
+- Use TypeScript strict mode.
+- All API endpoints must have tests.
+- Error handling follows the pattern in `src/utils/errors.ts`.
+```
+
+---
+
+## Principles in action
+
 Real-world code examples demonstrating the four principles. Each example shows what LLMs commonly do wrong and how to fix it.
 
 ---
