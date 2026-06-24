@@ -9,12 +9,14 @@ Two parts:
 
 ## Usage by tool
 
-The install script (`scripts/install.sh`) writes `AGENT_PROTOCOL.md` to the root of your project and drops a copy at every path the supported tools expect. You can also install by hand; the per-tool sections below show both.
-
-The one-liner:
+The install script (`scripts/install.sh`) takes a **one-time snapshot** of the protocol and writes it directly into the instruction files each tool reads. No `AGENT_PROTOCOL.md` is left behind in the downstream project — only the files the tools actually look for. You can also install by hand; the per-tool sections below show both.
 
 ```bash
+# all tools
 curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash
+
+# only the ones you use
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- claude cursor
 ```
 
 ### Claude Code
@@ -22,14 +24,26 @@ curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scrip
 Claude Code reads `CLAUDE.md` from the project root (and merges it with `~/.claude/CLAUDE.md` if present).
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- claude
+```
+
+Or manually:
+
+```bash
 curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/AGENT_PROTOCOL.md -o CLAUDE.md
 ```
 
-Then start Claude Code in that directory — it picks up `CLAUDE.md` automatically. To merge with project-specific rules, append them to `CLAUDE.md` below the protocol.
+To merge with project-specific rules, append them to `CLAUDE.md` below the protocol.
 
 ### Cursor
 
 Cursor reads rules from `.cursor/rules/*.mdc`.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- cursor
+```
+
+Or manually:
 
 ```bash
 mkdir -p .cursor/rules
@@ -43,6 +57,12 @@ curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/AGENT
 Copilot Chat / Copilot in IDEs reads `.github/copilot-instructions.md`.
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- copilot
+```
+
+Or manually:
+
+```bash
 mkdir -p .github
 curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/AGENT_PROTOCOL.md -o .github/copilot-instructions.md
 ```
@@ -54,12 +74,24 @@ Commit the file; Copilot picks it up on the next session.
 Windsurf reads `.windsurfrules` from the project root.
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- windsurf
+```
+
+Or manually:
+
+```bash
 curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/AGENT_PROTOCOL.md -o .windsurfrules
 ```
 
 ### Generic AGENTS.md
 
 Any tool that follows the [AGENTS.md](https://agents.md) convention reads `AGENTS.md` from the project root.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- agents
+```
+
+Or manually:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/AGENT_PROTOCOL.md -o AGENTS.md

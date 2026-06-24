@@ -19,19 +19,24 @@ same concatenated output.
 One-liner, run inside your project's root:
 
 ```bash
+# all supported tools
 curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash
+
+# only the tools you actually use
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- claude cursor
 ```
 
-This writes `AGENT_PROTOCOL.md` and drops a copy at every path that a
-supported tool expects:
+This takes a **one-time snapshot** of the protocol and writes it to every
+path a supported tool expects. The files won't auto-update — re-run to
+refresh. No `.gitignore`, no symlinks, no extra scaffolding is created.
 
-| Tool           | File it reads                      |
-| -------------- | ---------------------------------- |
-| Claude Code    | `CLAUDE.md`                        |
-| Generic agents | `AGENTS.md`                        |
-| Cursor         | `.cursor/rules/main.mdc`           |
-| GitHub Copilot | `.github/copilot-instructions.md`  |
-| Windsurf       | `.windsurfrules`                   |
+| Tool key   | File written                       |
+| ---------- | ---------------------------------- |
+| `claude`   | `CLAUDE.md`                        |
+| `agents`   | `AGENTS.md`                        |
+| `cursor`   | `.cursor/rules/main.mdc`           |
+| `copilot`  | `.github/copilot-instructions.md`  |
+| `windsurf` | `.windsurfrules`                   |
 
 See [EXAMPLES.md](./EXAMPLES.md) for per-tool notes and real-world usage.
 
