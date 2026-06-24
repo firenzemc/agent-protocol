@@ -30,13 +30,22 @@ This takes a **one-time snapshot** of the protocol and writes it to every
 path a supported tool expects. The files won't auto-update — re-run to
 refresh. No `.gitignore`, no symlinks, no extra scaffolding is created.
 
-| Tool key   | File written                       |
-| ---------- | ---------------------------------- |
-| `claude`   | `CLAUDE.md`                        |
-| `agents`   | `AGENTS.md`                        |
-| `cursor`   | `.cursor/rules/main.mdc`           |
-| `copilot`  | `.github/copilot-instructions.md`  |
-| `windsurf` | `.windsurfrules`                   |
+| Tool key   | File written                       | Included by default |
+| ---------- | ---------------------------------- | ------------------- |
+| `claude`   | `CLAUDE.md`                        | yes                 |
+| `agents`   | `AGENTS.md`                        | yes                 |
+| `cursor`   | `.cursor/rules/main.mdc`           | yes                 |
+| `copilot`  | `.github/copilot-instructions.md`  | yes                 |
+| `windsurf` | `.windsurfrules`                   | yes                 |
+| `design`   | `design.md`                        | no (opt-in)         |
+
+The `design` module is an optional editorial design system (colors,
+typography, spacing, components) for UI/frontend projects. It is **not**
+included in the default (no-arg) install — pass `design` explicitly:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- claude design
+```
 
 See [EXAMPLES.md](./EXAMPLES.md) for per-tool notes and real-world usage.
 

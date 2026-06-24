@@ -97,6 +97,20 @@ Or manually:
 curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/AGENT_PROTOCOL.md -o AGENTS.md
 ```
 
+### Design module (optional)
+
+The `design` key installs a standalone `design.md` — a warm-paper editorial design system with color tokens, typography, spacing, and component definitions. It is aimed at UI/frontend projects and is **not** part of the default install.
+
+```bash
+# install protocol + design together
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- claude cursor design
+
+# design only
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- design
+```
+
+The resulting `design.md` is brand-agnostic. Fork it and swap the token values for your own brand colors and fonts.
+
 ### Keeping it up to date
 
 Re-run the install one-liner whenever the upstream protocol changes. If you've appended project-specific rules below the shared ones, split them into a separate file first so they don't get overwritten.

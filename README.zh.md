@@ -29,13 +29,21 @@ curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scrip
 更新——重新运行即可刷新。脚本不会创建 `.gitignore`、不使用符号链接、不产生额外
 脚手架文件。
 
-| 工具 key     | 写入的文件                           |
-| ------------ | ------------------------------------ |
-| `claude`     | `CLAUDE.md`                          |
-| `agents`     | `AGENTS.md`                          |
-| `cursor`     | `.cursor/rules/main.mdc`             |
-| `copilot`    | `.github/copilot-instructions.md`    |
-| `windsurf`   | `.windsurfrules`                     |
+| 工具 key     | 写入的文件                           | 默认安装 |
+| ------------ | ------------------------------------ | -------- |
+| `claude`     | `CLAUDE.md`                          | 是       |
+| `agents`     | `AGENTS.md`                          | 是       |
+| `cursor`     | `.cursor/rules/main.mdc`             | 是       |
+| `copilot`    | `.github/copilot-instructions.md`    | 是       |
+| `windsurf`   | `.windsurfrules`                     | 是       |
+| `design`     | `design.md`                          | 否（可选） |
+
+`design` 模块是一套面向 UI/前端项目的编辑风格设计系统（配色、字体、间距、组件）。
+它**不**包含在默认安装中——需要显式传入 `design`：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- claude design
+```
 
 更多针对每种工具的使用示例见 [EXAMPLES.md](./EXAMPLES.md)。
 
