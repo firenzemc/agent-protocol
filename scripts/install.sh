@@ -14,13 +14,15 @@
 #   curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- claude cursor
 #
 # Tool keys: claude, agents, cursor, copilot, windsurf (default: all)
-# Optional:  design (writes design.md — not included in the default set)
+# Optional:  design (writes design.md), deploy (writes deployment.md)
+#            — neither is included in the default set
 set -euo pipefail
 
 repo="${AGENT_PROTOCOL_REPO:-firenzemc/agent-protocol}"
 ref="${AGENT_PROTOCOL_REF:-main}"
 protocol_raw="https://raw.githubusercontent.com/${repo}/${ref}/AGENT_PROTOCOL.md"
 design_raw="https://raw.githubusercontent.com/${repo}/${ref}/design.md"
+deployment_raw="https://raw.githubusercontent.com/${repo}/${ref}/deployment.md"
 
 # Map a tool key to the file that tool reads. `case` keeps this portable to
 # the bash 3.2 that ships on macOS (no associative arrays).
@@ -32,6 +34,7 @@ dest_for() {
     copilot)  echo ".github/copilot-instructions.md" ;;
     windsurf) echo ".windsurfrules" ;;
     design)   echo "design.md" ;;
+    deploy)   echo "deployment.md" ;;
     *)        return 1 ;;
   esac
 }
@@ -42,17 +45,20 @@ if [ "${#tools[@]}" -eq 0 ]; then
 fi
 
 # Lazy-fetch each source only once, and only when needed.
-protocol="" design=""
+protocol="" design="" deployment=""
 
 for tool in "${tools[@]}"; do
   if ! target="$(dest_for "$tool")"; then
-    echo "unknown tool: $tool (valid: claude agents cursor copilot windsurf design)" >&2
+    echo "unknown tool: $tool (valid: claude agents cursor copilot windsurf design deploy)" >&2
     exit 1
   fi
 
   if [ "$tool" = "design" ]; then
     [ -z "$design" ] && design="$(curl -fsSL "$design_raw")"
     content="$design"
+  elif [ "$tool" = "deploy" ]; then
+    [ -z "$deployment" ] && deployment="$(curl -fsSL "$deployment_raw")"
+    content="$deployment"
   else
     [ -z "$protocol" ] && protocol="$(curl -fsSL "$protocol_raw")"
     content="$protocol"
