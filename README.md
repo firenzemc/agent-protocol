@@ -38,13 +38,16 @@ refresh. No `.gitignore`, no symlinks, no extra scaffolding is created.
 | `copilot`  | `.github/copilot-instructions.md`  | yes                 |
 | `windsurf` | `.windsurfrules`                   | yes                 |
 | `design`   | `design.md`                        | no (opt-in)         |
+| `deploy`   | `deployment.md`                    | no (opt-in)         |
 
 The `design` module is an optional editorial design system (colors,
-typography, spacing, components) for UI/frontend projects. It is **not**
-included in the default (no-arg) install — pass `design` explicitly:
+typography, spacing, components) for UI/frontend projects. The `deploy` module
+is the contract for repos you deploy to a self-hosted container platform
+(Dockerfile, `$PORT`, `/health`, `vinyard.toml`). Neither is in the default
+(no-arg) install — pass them explicitly:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- claude design
+curl -fsSL https://raw.githubusercontent.com/firenzemc/agent-protocol/main/scripts/install.sh | bash -s -- claude design deploy
 ```
 
 See [EXAMPLES.md](./EXAMPLES.md) for per-tool notes and real-world usage.
@@ -58,7 +61,8 @@ core/                         ← single source of truth (edit these)
   20-workflow.md
   30-communication.md
   40-stack-defaults.md
-AGENT_PROTOCOL.md             ← concatenated build output
+AGENT_PROTOCOL.md             ← concatenated build output (core/ only)
+deployment.md                 ← opt-in deploy contract (like design.md; not in the build)
 CLAUDE.md                     ← symlink → AGENT_PROTOCOL.md
 AGENTS.md                     ← symlink → AGENT_PROTOCOL.md
 .windsurfrules                ← symlink → AGENT_PROTOCOL.md
@@ -91,6 +95,9 @@ The symlinks don't need to be touched — they always point at
   options, conciseness, honest progress reports.
 - **[40-stack-defaults.md](./core/40-stack-defaults.md)** — sensible defaults
   when the project doesn't constrain the choice.
+- **[deployment.md](./deployment.md)** *(opt-in)* — contract for
+  container-deployable repos: Dockerfile, `$PORT`, `/health`, and the
+  `vinyard.toml` deploy manifest.
 
 ## License
 
